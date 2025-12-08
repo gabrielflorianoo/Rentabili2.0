@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "frontend/src/pages/Simulador.jsx", "frontend/src/components/DarkModeToggle.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "frontend/**/*.{js,jsx}"],
   "exclude": ["node_modules"]
 }

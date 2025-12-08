@@ -31,7 +31,7 @@ export const servicoAutenticacao = {
                 name: dados.nome,
                 email: dados.email,
                 password: dados.senha,
-                phone: dados.nascimento,
+                birthday: dados.nascimento,
             };
             const response = await authApi.register(payload);
             if (response.user) {

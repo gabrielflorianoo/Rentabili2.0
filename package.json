@@ -1,0 +1,36 @@
+{
+    "devDependencies": {
+        "concurrently": "^9.2.1",
+        "prisma": "^6.17.1",
+        "vercel": "^48.10.10"
+    },
+    "dependencies": {
+        "@prisma/client": "^6.17.1",
+        "bcryptjs": "^3.0.2",
+        "dotenv": "^17.2.3",
+        "recharts": "^3.5.0"
+    },
+    "name": "rentabili2.0",
+    "version": "2.0.0",
+    "description": "O Rentabili é um sistema completo de gerenciamento de rentabilidade de investimentos. Ele ajuda investidores a monitorar o desempenho de seus ativos (renda fixa e fundos), calculando ganhos percentuais e exibindo gráficos comparativos para facilitar a tomada de decisões.",
+    "main": "index.js",
+    "scripts": {
+        "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
+        "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix frontend\"",
+        "install": "concurrently \"npm install --prefix backend && (cd backend && npx prisma generate)\" \"npm install --prefix frontend\"",
+        "build": "npm install --prefix backend && npm run build --prefix backend",
+        "install:run": "npm run install && npm run dev"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/gabrielflorianoo/Rentabili2.0.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "bugs": {
+        "url": "https://github.com/gabrielflorianoo/Rentabili2.0/issues"
+    },
+    "homepage": "https://github.com/gabrielflorianoo/Rentabili2.0#readme"
+}

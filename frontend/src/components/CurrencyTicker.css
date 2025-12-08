@@ -1,0 +1,81 @@
+/* Container do Letreiro */
+.ticker-container {
+    width: 100%;
+    background: #1f2937; /* Fundo escuro para destaque */
+    color: white;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #374151;
+}
+
+/* Animação do Texto */
+.ticker-content {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+    padding-left: 100%; /* Começa fora da tela */
+}
+
+/* --- NOVO: Pausa ao passar o mouse --- */
+.ticker-container:hover .ticker-content {
+    animation-play-state: paused;
+}
+
+/* --- NOVO: Pausa quando o modal abre (classe controlada pelo React) --- */
+.ticker-content.paused {
+    animation-play-state: paused !important;
+}
+
+.ticker-item {
+    display: inline-block;
+    padding: 0 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.ticker-item:hover {
+    color: #4ade80; /* Verde ao passar o mouse */
+    text-decoration: underline;
+}
+
+.ticker-value {
+    font-weight: 700;
+    margin-left: 5px;
+    color: #4ade80;
+}
+
+.variation.positive { color: #4ade80; font-size: 0.8em; margin-left: 5px; }
+.variation.negative { color: #f87171; font-size: 0.8em; margin-left: 5px; }
+
+@keyframes marquee {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
+/* Modal do Gráfico */
+.currency-modal-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.currency-header {
+    margin-bottom: 20px;
+}
+
+.currency-header h2 {
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.loading-chart {
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}

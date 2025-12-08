@@ -1,0 +1,618 @@
+/* Performance Charts Styles */
+
+/* Containers */
+.performance-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.performance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.chart-wrapper {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Top Performers Section */
+.top-performers-section {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Performance Cards */
+.performance-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    border-left: 4px solid;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.performance-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.performance-card.positive {
+    border-left-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.performance-card.negative {
+    border-left-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.performance-card h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.performance-card .tipo {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+}
+
+.performance-card .valor-principal {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.performance-card .valor-principal.positive {
+    color: #10b981;
+}
+
+.performance-card .valor-principal.negative {
+    color: #ef4444;
+}
+
+.performance-card .valor-secundario {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.performance-card .detalhes {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+.performance-card .detalhes div {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+/* Performance by Period Grid */
+.performance-by-period {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.period-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border-left: 4px solid;
+    text-align: center;
+}
+
+.period-card.positive {
+    border-left-color: #10b981;
+    background-color: #f0fdf4;
+}
+
+.period-card.negative {
+    border-left-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+.period-card .period-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.period-card .period-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+.period-card.positive .period-value {
+    color: #10b981;
+}
+
+.period-card.negative .period-value {
+    color: #ef4444;
+}
+
+.period-card .period-gain {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-top: 0.25rem;
+}
+
+/* Top Performers Widget */
+.performers-widget {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.performers-widget h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.performers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+/* Histórico Styles */
+.historico-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.ativos-selector {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.ativos-selector h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.ativos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.ativo-btn {
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.ativo-btn:hover {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.ativo-btn.active {
+    border-color: #3b82f6;
+    background-color: #3b82f6;
+    color: white;
+}
+
+.ativo-btn .ativo-name {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.ativo-btn .ativo-type {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Histórico de Saldos Table */
+.historico-saldos {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.historico-saldos h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.tabela-historico {
+    margin-top: 1rem;
+}
+
+.tabela-header,
+.tabela-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.tabela-header {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: #374151;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.tabela-row:hover {
+    background-color: #f9fafb;
+}
+
+.tabela-row.positive {
+    border-left: 4px solid #10b981;
+}
+
+.tabela-row.negative {
+    border-left: 4px solid #ef4444;
+}
+
+.col-data {
+    font-weight: 500;
+}
+
+.col-valor {
+    text-align: right;
+    font-weight: 500;
+}
+
+.col-variacao {
+    text-align: right;
+}
+
+.col-variacao.positive {
+    color: #10b981;
+}
+
+.col-variacao.negative {
+    color: #ef4444;
+}
+
+.col-percentual {
+    text-align: right;
+    font-weight: 600;
+}
+
+.col-percentual.positive {
+    color: #10b981;
+}
+
+.col-percentual.negative {
+    color: #ef4444;
+}
+
+/* Estatísticas Section */
+.estatisticas-ativo {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.estatisticas-ativo h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    text-align: center;
+}
+
+.stat-card .stat-label {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+}
+
+.stat-card .stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.stat-card .stat-value.positive {
+    color: #10b981;
+}
+
+.stat-card .stat-value.negative {
+    color: #ef4444;
+}
+
+/* Performance Periods Section */
+.performance-periods {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.performance-periods h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+/* Análise de Dados */
+.analise-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.performance-geral,
+.top-performers,
+.ativo-detalhado {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.performance-geral h2,
+.top-performers h2,
+.ativo-detalhado h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.performers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+.ativo-selector {
+    margin-bottom: 1.5rem;
+}
+
+.selector-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: #1f2937;
+}
+
+.selector-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.ativo-analise {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.info-basica {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.info-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    color: white;
+}
+
+.info-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.info-card .tipo {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+}
+
+.info-card .id {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+
+.performance-periodos {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.performance-periodos h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.estatisticas {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.estatisticas h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.stat {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    border-left: 4px solid #3b82f6;
+}
+
+.stat .label {
+    font-size: 0.75rem;
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.stat .valor {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    display: block;
+}
+
+.stat .valor.positive {
+    color: #10b981;
+}
+
+.stat .valor.negative {
+    color: #ef4444;
+}
+
+.historico-tabela {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.historico-tabela h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.tabela-scroll {
+    overflow-x: auto;
+}
+
+.historico-tabela table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.historico-tabela thead {
+    background-color: white;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.historico-tabela th {
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+}
+
+.historico-tabela td {
+    padding: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.historico-tabela tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Loading State */
+.loading-text {
+    text-align: center;
+    color: #6b7280;
+    padding: 2rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    color: #9ca3af;
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .performance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tabela-header,
+    .tabela-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .performance-by-period {
+        grid-template-columns: 1fr;
+    }
+
+    .ativos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

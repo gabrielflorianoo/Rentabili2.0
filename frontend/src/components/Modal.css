@@ -1,0 +1,368 @@
+/* ===== MODAL STYLES - Professional Fintech Design ===== */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 9999;
+  padding: 40px 20px 20px 20px;
+  overflow-y: auto;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+.modal-content {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh;
+  margin: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15),
+              0 0 1px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Modal Header */
+.modal-header {
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid #e8e8e8;
+  flex-shrink: 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: -0.5px;
+  word-break: break-word;
+}
+
+.modal-header p {
+  margin: 8px 0 0 0;
+  font-size: 0.9rem;
+  color: #666;
+  word-break: break-word;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 24px 28px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.modal-body p {
+  margin: 0 0 16px 0;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Garante que todos os elementos filhos respeitem o box-sizing */
+.modal-content * {
+  box-sizing: border-box;
+}
+
+/* ===== FORM GROUP STYLES ===== */
+.form-group {
+  margin-bottom: 18px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  letter-spacing: -0.3px;
+  word-break: break-word;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  padding: 10px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #333;
+  background: #fafafa;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.form-group input::placeholder {
+  color: #999;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #00a651;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 166, 81, 0.08);
+}
+
+.form-group input:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* ===== MODAL ACTIONS ===== */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px 28px;
+  border-top: 1px solid #e8e8e8;
+  background: #fafafa;
+  border-radius: 0 0 16px 16px;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-actions button {
+  flex: 0 1 auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.3px;
+}
+
+/* Button Styles */
+.btn-cancel,
+.btn-secondary {
+  background: #f0f0f0;
+  color: #555;
+}
+
+.btn-cancel:hover,
+.btn-secondary:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.btn-cancel:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-save,
+.btn-primary {
+  background: linear-gradient(90deg, #00a651, #00cc44);
+  color: #fff;
+  min-width: 120px;
+}
+
+.btn-save:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 166, 81, 0.3);
+}
+
+.btn-save:active,
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 166, 81, 0.2);
+}
+
+.btn-save:disabled,
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Error Message */
+.error-message {
+  color: #d32f2f;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(211, 47, 47, 0.08);
+  border-radius: 6px;
+  border-left: 3px solid #d32f2f;
+  word-break: break-word;
+}
+
+.success-message {
+  color: #00a651;
+  font-size: 0.85rem;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(0, 166, 81, 0.08);
+  border-radius: 6px;
+  border-left: 3px solid #00a651;
+  word-break: break-word;
+}
+
+/* Loading State */
+.modal-loading {
+  text-align: center;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e8e8e8;
+  border-top: 4px solid #00a651;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.modal-loading-text {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.modal-loading-subtext {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 20px 16px;
+    padding-top: 60px;
+  }
+
+  .modal-content {
+    max-height: 90vh;
+    max-width: 98vw;
+  }
+
+  .modal-header {
+    padding: 20px 24px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.3rem;
+  }
+
+  .modal-body {
+    padding: 20px 24px;
+  }
+
+  .modal-actions {
+    padding: 16px 24px;
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions button {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-overlay {
+    padding: 12px;
+    padding-top: 40px;
+  }
+
+  .modal-content {
+    border-radius: 12px;
+    max-height: 95vh;
+  }
+
+  .modal-header {
+    padding: 16px 20px 14px;
+  }
+
+  .modal-header h3 {
+    font-size: 1.15rem;
+  }
+
+  .modal-header p {
+    font-size: 0.8rem;
+  }
+
+  .modal-body {
+    padding: 16px 20px;
+  }
+
+  .modal-body p {
+    font-size: 0.85rem;
+  }
+
+  .modal-actions {
+    padding: 12px 20px;
+    gap: 8px;
+  }
+
+  .form-group label {
+    font-size: 0.85rem;
+  }
+
+  .form-group input,
+  .form-group select {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
+
+  .btn-save,
+  .btn-primary {
+    min-width: unset;
+  }
+}

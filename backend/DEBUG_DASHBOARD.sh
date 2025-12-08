@@ -1,0 +1,20 @@
+#!/bin/bash
+# Script para debugar o dashboard
+
+echo "=== Rentabili Dashboard Debug ==="
+echo ""
+echo "Certifique-se de que o servidor backend está rodando:"
+echo "  cd /workspaces/Rentabili/backend"
+echo "  npm run dev"
+echo ""
+echo "Então em outro terminal, execute:"
+echo "  curl -X GET http://localhost:3000/dashboard/debug \\"
+echo "    -H \"Authorization: Bearer <seu_token>\""
+echo ""
+echo "Isso mostrará todos os investimentos e suas somas."
+echo ""
+echo "Procure por:"
+echo "  1. Investimentos duplicados (mesmo ID, data, valor)"
+echo "  2. Valores diferentes do esperado"
+echo "  3. Erros na soma"
+echo ""

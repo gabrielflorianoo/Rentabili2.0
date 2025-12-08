@@ -1,0 +1,17 @@
+{
+    "builds": [
+        {
+            "src": "app.js",
+            "use": "@vercel/node",
+            "config": {
+                "includeFiles": ["swagger.yaml"]
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "app.js"
+        }
+    ]
+}

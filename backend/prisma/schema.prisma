@@ -1,0 +1,118 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+        
+model User {
+    id       Int      @id @default(autoincrement())
+    name     String
+    email    String   @unique
+    password String
+    birthday DateTime?
+    actives  Active[]
+    wallets  Wallet[]
+    transactions Transaction[]
+    investments  Investment[]
+
+    refreshTokens RefreshToken[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Active {
+    id       Int                 @id @default(autoincrement())
+    name     String
+    type     String
+    userId   Int
+    user     User                @relation(fields: [userId], references: [id])
+    balances HistoricalBalance[]
+    investments Investment[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+
+
+    @@index([userId])
+}
+
+model HistoricalBalance {
+    id       Int      @id @default(autoincrement())
+    date     DateTime
+    value    Decimal  @db.Decimal(10, 2)
+    activeId Int
+    active   Active   @relation(fields: [activeId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([activeId, date])
+}
+
+model Wallet {
+    id       Int          @id @default(autoincrement())
+    name     String
+    balance  Decimal      @db.Decimal(10, 2) @default(0)
+    userId   Int
+    user     User         @relation(fields: [userId], references: [id])
+    transactions Transaction[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+}
+
+model Transaction {
+    id          Int      @id @default(autoincrement())
+    amount      Decimal  @db.Decimal(10, 2)
+    type        String   // e.g., 'income', 'expense'
+    description String?
+    date        DateTime
+    userId      Int
+    user        User     @relation(fields: [userId], references: [id])
+    walletId    Int?
+    wallet      Wallet?  @relation(fields: [walletId], references: [id])
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([walletId])
+}
+
+model Investment {
+    id       Int      @id @default(autoincrement())
+    amount   Decimal  @db.Decimal(10, 2)
+    kind     String   @default("Investimento")
+    activeId Int
+    active   Active   @relation(fields: [activeId], references: [id])
+    userId   Int
+    user     User     @relation(fields: [userId], references: [id])
+    date     DateTime
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@index([userId])
+    @@index([activeId])
+}
+
+model RefreshToken {
+    id        String   @id @default(cuid())
+    token     String   @unique
+    userId    Int
+    user      User     @relation(fields: [userId], references: [id])
+    revoked   Boolean  @default(false)
+    expiresAt DateTime
+    createdAt DateTime @default(now())
+
+    @@index([userId])
+}

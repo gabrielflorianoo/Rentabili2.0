@@ -137,3 +137,12 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+/generated/prisma
+.vercel
+
+# MCPs
+.playwright-mcp/
+
+# Codespace container
+.devcontainer/

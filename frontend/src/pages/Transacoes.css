@@ -1,0 +1,211 @@
+/* ==========================
+   LAYOUT GERAL DA PÁGINA
+   ========================== */
+
+.page-wrapper {
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 10px;
+}
+
+/* Blocos organizados */
+.section-box {
+    background: #fff;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 20px;
+    animation: fadeIn 0.4s ease;
+}
+
+/* Títulos das seções */
+.section-title {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+    color: #2f4f2f;
+}
+
+/* ==========================
+   FORMULÁRIO (Inputs)
+   ========================== */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 700px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #454545;
+}
+
+.input-field {
+    padding: 12px 14px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: 0.2s;
+    background: #fafafa;
+}
+
+.input-field:focus {
+    border-color: #4caf50;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.15);
+}
+
+/* ==========================
+   BOTÕES
+   ========================== */
+
+.btn-area {
+    margin-top: 10px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 18px;
+    border: none;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.btn-green {
+    background: #2f8a2f;
+    color: #fff;
+}
+
+.btn-green:hover {
+    background: #256e25;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid #2f8a2f;
+    color: #2f8a2f;
+}
+
+.btn-outline:hover {
+    background: #e9f7e9;
+}
+
+/* ==========================
+   ÁREA DE AÇÕES / FILTROS
+   ========================== */
+
+.filters-box {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.filter-item {
+    background: #f4f4f4;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* ==========================
+   TABELA (mantida)
+   ========================== */
+
+.table-container {
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow-x: auto;
+    margin-top: 10px;
+}
+
+/* (sua tabela continua igual — omiti aqui para não repetir) */
+
+
+/* ==========================
+   ANIMAÇÕES
+   ========================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================
+   CHECKBOX CUSTOMIZADO
+   ========================== */
+
+/* ==========================
+   SLIDER SWITCH CUSTOMIZADO
+   ========================== */
+.switch {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    padding: 6px 0;
+}
+
+.switch input[type="checkbox"] {
+    display: none;
+}
+
+.slider {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: #dcdcdc;
+    border-radius: 12px;
+    transition: background 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+}
+
+.slider::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 18px;
+    height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.10);
+    transition: transform 0.2s;
+}
+
+.switch input[type="checkbox"]:checked + .slider {
+    background: #2f8a2f;
+}
+
+.switch input[type="checkbox"]:checked + .slider::before {
+    transform: translateX(20px);
+}
+
+/* Texto do switch alinhado verticalmente */
+.switch {
+    min-height: 32px;
+}

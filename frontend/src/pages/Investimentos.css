@@ -1,0 +1,580 @@
+/* ----------------------------------------------------
+   ESTILO GERAL · Dashboard moderno estilo Fintech
+---------------------------------------------------- */
+.actions-bar {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg, #00a651, #00cc44);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 166, 81, 0.35);
+}
+
+/* ----------------------------------------------------
+   TABELA
+---------------------------------------------------- */
+.table-container {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+    overflow: hidden;
+    margin-top: 24px;
+    animation: fadeIn 0.4s ease;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table thead {
+    background: linear-gradient(90deg, #00a651, #00cc44);
+    color: #fff;
+}
+
+.data-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.data-table tbody tr {
+    border-bottom: 1px solid #f2f2f2;
+    transition: background 0.25s;
+}
+
+.data-table tbody tr:hover {
+    background: #f4fff5;
+}
+
+.data-table td {
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* ----------------------------------------------------
+   BOTÕES DE AÇÃO
+---------------------------------------------------- */
+.btn-edit,
+.btn-delete,
+.btn-simulate {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.3rem;
+    margin: 0 6px;
+    opacity: 0.8;
+    transition: all 0.25s ease;
+}
+
+.btn-edit:hover,
+.btn-delete:hover,
+.btn-simulate:hover {
+    transform: scale(1.25);
+    opacity: 1;
+}
+
+/* ============================================
+   BUTTON STYLES - Professional Fintech Design
+   ============================================ */
+.btn-primary {
+    background: linear-gradient(90deg, #00a651, #00cc44);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 166, 81, 0.35);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 166, 81, 0.2);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-secondary {
+    background: linear-gradient(90deg, #e8f5e9, #c8ffd7);
+    color: #00a651;
+    border: 1px solid #a5d6a7;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(90deg, #c8e6c9, #a5d6a7);
+    border-color: #81c784;
+    transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0);
+}
+
+.btn-danger {
+    background: linear-gradient(90deg, #ffebee, #ffcdd2);
+    color: #d90429;
+    border: 1px solid #ef5350;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(90deg, #ffcdd2, #ef5350);
+    border-color: #c62828;
+    transform: translateY(-1px);
+}
+
+.btn-danger:active {
+    transform: translateY(0);
+}
+
+/* ============================================
+   MODAL ADJUSTMENTS FOR PAGE CONTEXT
+   ============================================ */
+.modal-body form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-body small {
+    font-size: 0.85rem;
+    color: #999;
+    display: block;
+    margin-top: 6px;
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+
+/* ----------------------------------------------------
+   ANIMAÇÃO DE CARREGAMENTO
+---------------------------------------------------- */
+.loading {
+    text-align: center;
+    padding: 45px;
+    font-size: 1.2rem;
+    color: #00a651;
+    font-weight: 600;
+    animation: pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: .5; transform: scale(.98); }
+    50% { opacity: 1; transform: scale(1); }
+    100% { opacity: .5; transform: scale(.98); }
+}
+
+/* MODAL - Estilos específicos da página (override do Modal.css) */
+.modal-content h3 {
+    color: #0f3d1d;
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+
+.modal-content p {
+    color: #666;
+}
+
+/* Animação opcional para modais */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ----------------------------------------------------
+   FORMULÁRIOS
+---------------------------------------------------- */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #2f2f2f;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s ease, background 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(0,166,81,0.25);
+    outline: none;
+    background: transparent;
+}
+
+/* Modal actions */
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-secondary:hover {
+    background: #e8e8e8;
+    border-color: #ccc;
+}
+
+.btn-cancel {
+    background: #ececec;
+    color: #333;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.btn-cancel:hover {
+    background: #dcdcdc;
+}
+
+.btn-save {
+    background: linear-gradient(90deg, #00a651, #00cc44);
+    color: #fff;
+    border: none;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.25s;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 166, 81, 0.35);
+}
+
+/* ----------------------------------------------------
+   FILTROS
+---------------------------------------------------- */
+.filters-row {
+    display: flex;
+    gap: 16px;
+    background: transparent;
+    align-items: center;
+    margin: 18px 0;
+    animation: fadeIn 0.3s ease;
+}
+
+.filter-item label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+    color: var(--text);
+    background: transparent;
+}
+
+.filter-item select,
+.filter-item input {
+    padding: 10px 12px;
+    border-radius: var(--radius);
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--text);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s ease, background 0.2s;
+}
+
+.filter-item select:focus,
+.filter-item input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(0,166,81,0.25);
+    outline: none;
+    background: transparent;
+}
+
+/* ============================================
+   TABELA DE INVESTIMENTOS
+============================================ */
+.investimentos-card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.investimentos-card h2 {
+    margin-bottom: 15px;
+    color: var(--text);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    animation: fadeIn 0.6s ease;
+}
+
+.data-table thead {
+    background: linear-gradient(90deg, var(--primary), var(--primary-light));
+    color: white;
+}
+
+.data-table th {
+    padding: 14px;
+    text-align: left;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.data-table td {
+    padding: 14px;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.data-table tbody tr:hover {
+    background: var(--soft-bg);
+    transition: 0.25s ease;
+}
+
+/* LOADING */
+.loading {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary);
+    animation: pulse 1.8s infinite ease-in-out;
+}
+
+/* RENDAS */
+.renda-container {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--radius);
+    margin-top: 35px;
+    box-shadow: var(--shadow);
+    animation: fadeIn 0.5s ease;
+    border-left: 6px solid var(--primary);
+}
+
+.renda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.renda-header h2 {
+    color: var(--text);
+    font-size: 1.45rem;
+    font-weight: 700;
+}
+
+.renda-list {
+    margin-top: 18px;
+    list-style: none;
+    padding-left: 0;
+}
+
+.renda-item {
+    background: var(--soft-bg);
+    padding: 14px 16px;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    color: var(--text);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 166, 81, 0.08);
+    animation: fadeIn 0.4s ease;
+    transition: all 0.22s ease;
+}
+
+.renda-item:hover {
+    transform: translateX(4px);
+    background: #e7ffe9;
+}
+
+.renda-item button {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--primary);
+    transition: 0.2s;
+}
+
+.renda-item button:hover {
+    transform: scale(1.2);
+}
+/* ----------------------------------------------------
+   OVERRIDES PARA MODO ESCURO LOCAL
+   (somente quando houver .dark no body ou container)
+---------------------------------------------------- */
+
+.dark .table-container {
+    background: transparent !important;
+    color: #eee !important;
+}
+
+.dark .data-table th {
+    background: linear-gradient(90deg, #008f45, #00b63a) !important;
+    color: #fff !important;
+}
+
+.dark .data-table td {
+    color: #ddd !important;
+    border-color: #333 !important;
+}
+
+.dark .data-table tbody tr:hover {
+    background: transparent !important;
+}
+
+/* filtros */
+.dark .filter-item label {
+    color: #0fcf1f !important;
+}
+
+.dark select {
+    background: #2a2a2a !important;
+    color: #eee !important;
+    border: 1px solid #444 !important;
+}
+
+/* modal */
+.dark .modal-content {
+    background: #222 !important;
+    color: #eee !important;
+}
+
+.dark .form-group label {
+    color: #ccc !important;
+}
+
+.dark .form-group input,
+.dark .form-group select {
+    background: transparent !important;
+    border: 1px solid #444 !important;
+}
+
+.dark .btn-cancel {
+    background: #333 !important;
+    color: #eee !important;
+}
+
+.dark .renda-section h3 {
+    color: #fff !important;
+}
+
+.dark .renda-list .renda-item {
+    color: #e6e6e6 !important;
+}
+
+/* ============================================
+   MODAL RESPONSIVE FIX
+   Garante que modais não vazam da tela
+============================================ */
+
+/* Modal específico da página de investimentos */
+.modal-content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.modal-content .form-group {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+}
+
+.modal-content .form-group input,
+.modal-content .form-group select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-content p.error-message {
+    color: #d32f2f;
+    font-size: 0.9rem;
+    margin: 12px 0;
+    padding: 8px 12px;
+    background: #ffebee;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+/* Responsividade para modais em telas pequenas */
+/* Estilos base estão em Modal.css */
+@media (max-width: 640px) {
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-actions button {
+        width: 100%;
+    }
+}

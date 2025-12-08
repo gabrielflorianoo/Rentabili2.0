@@ -1,0 +1,736 @@
+openapi: 3.0.0
+info:
+    title: Rentabili - API de Gestão Financeira
+    version: 1.0.0
+    description: API de backend para a plataforma Rentabili, oferecendo gestão de carteiras, ativos, transações e dashboard.
+servers:
+    - url: https://crispy-bassoon-5gjqwp7pj5r9hj76-3000.app.github.dev/
+      description: Servidor de Desenvolvimento - Codespaces
+    - url: http://localhost:3000
+      description: Servidor de Desenvolvimento - Localhost
+    - url: https://backend-rentabili.vercel.app/
+      description: Servidor de Produção
+
+components:
+    securitySchemes:
+        bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+    schemas:
+        User:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                email:
+                    type: string
+                createdAt:
+                    type: string
+                    format: date-time
+        Wallet:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                balance:
+                    type: number
+                    format: float
+                userId:
+                    type: integer
+        Active:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                type:
+                    type: string
+                userId:
+                    type: integer
+        Transaction:
+            type: object
+            properties:
+                id:
+                    type: integer
+                amount:
+                    type: number
+                    format: float
+                type:
+                    type: string
+                    enum: [income, expense]
+                description:
+                    type: string
+                date:
+                    type: string
+                    format: date-time
+                walletId:
+                    type: integer
+                userId:
+                    type: integer
+        Investment:
+            type: object
+            properties:
+                id:
+                    type: integer
+                amount:
+                    type: number
+                    format: float
+                date:
+                    type: string
+                    format: date-time
+                activeId:
+                    type: integer
+                kind:
+                    type: string
+                    enum: [Investimento, Renda]
+        HistoricalBalance:
+            type: object
+            properties:
+                id:
+                    type: integer
+                date:
+                    type: string
+                    format: date-time
+                value:
+                    type: number
+                    format: float
+                activeId:
+                    type: integer
+
+security:
+    - bearerAuth: []
+
+paths:
+    /auth/register:
+        post:
+            tags:
+                - Autenticação
+            summary: Registra um novo usuário
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+            responses:
+                '201':
+                    description: Usuário registrado
+                '400':
+                    description: Dados inválidos ou email já em uso
+    /auth/login:
+        post:
+            tags:
+                - Autenticação
+            summary: Login de usuário
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+            responses:
+                '200':
+                    description: Login bem-sucedido
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    token:
+                                        type: string
+                '401':
+                    description: Credenciais inválidas
+
+    /users:
+        get:
+            tags:
+                - Usuários
+            summary: Lista todos os usuários (Acesso Público, usado para testes)
+            security: []
+            responses:
+                '200':
+                    description: Lista de usuários
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/User'
+        post:
+            tags:
+                - Usuários
+            summary: Cria um novo usuário (Rota de registro alternativa/pública)
+            security: []
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                email:
+                                    type: string
+                                password:
+                                    type: string
+            responses:
+                '201':
+                    description: Usuário criado
+    /users/{id}:
+        get:
+            tags:
+                - Usuários
+            summary: Retorna um usuário pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes do usuário
+                '404':
+                    description: Usuário não encontrado
+        put:
+            tags:
+                - Usuários
+            summary: Atualiza um usuário pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/User'
+            responses:
+                '200':
+                    description: Usuário atualizado
+        delete:
+            tags:
+                - Usuários
+            summary: Deleta um usuário pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Usuário deletado com sucesso
+
+    /dashboard:
+        get:
+            tags:
+                - Dashboard
+            summary: Retorna um resumo completo do dashboard do usuário
+            responses:
+                '200':
+                    description: Dados do dashboard
+                '401':
+                    description: Não autorizado
+    /dashboard/summary:
+        get:
+            tags:
+                - Dashboard
+            summary: Retorna um resumo rápido (saldo total, contagem de ativos)
+            responses:
+                '200':
+                    description: Dados de resumo
+                '401':
+                    description: Não autorizado
+
+    /wallets:
+        get:
+            tags:
+                - Carteiras
+            summary: Lista todas as carteiras do usuário
+            responses:
+                '200':
+                    description: Lista de carteiras
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Wallet'
+                '401':
+                    description: Não autorizado
+        post:
+            tags:
+                - Carteiras
+            summary: Cria uma nova carteira
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                name:
+                                    type: string
+                                balance:
+                                    type: number
+            responses:
+                '201':
+                    description: Carteira criada
+                '401':
+                    description: Não autorizado
+    /wallets/{id}:
+        get:
+            tags:
+                - Carteiras
+            summary: Retorna uma carteira pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes da carteira
+                '404':
+                    description: Carteira não encontrada
+        put:
+            tags:
+                - Carteiras
+            summary: Atualiza uma carteira pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Wallet'
+            responses:
+                '200':
+                    description: Carteira atualizada
+        delete:
+            tags:
+                - Carteiras
+            summary: Deleta uma carteira pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Carteira deletada com sucesso
+
+    /actives:
+        get:
+            tags:
+                - Ativos
+            summary: Lista todos os ativos do usuário
+            responses:
+                '200':
+                    description: Lista de ativos
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Active'
+                '401':
+                    description: Não autorizado
+        post:
+            tags:
+                - Ativos
+            summary: Cria um novo ativo
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Active'
+            responses:
+                '201':
+                    description: Ativo criado
+                '401':
+                    description: Não autorizado
+    /actives/{id}:
+        get:
+            tags:
+                - Ativos
+            summary: Retorna um ativo pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes do ativo
+                '404':
+                    description: Ativo não encontrado
+        put:
+            tags:
+                - Ativos
+            summary: Atualiza um ativo pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Active'
+            responses:
+                '200':
+                    description: Ativo atualizado
+        delete:
+            tags:
+                - Ativos
+            summary: Deleta um ativo pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Ativo deletado com sucesso
+
+    /historical-balances:
+        post:
+            tags:
+                - Balanços Históricos
+            summary: Adiciona um novo balanço histórico para um ativo
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/HistoricalBalance'
+            responses:
+                '201':
+                    description: Balanço criado
+                '401':
+                    description: Não autorizado
+    /historical-balances/{id}:
+        get:
+            tags:
+                - Balanços Históricos
+            summary: Retorna um balanço histórico pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes do balanço
+                '404':
+                    description: Balanço não encontrado
+        put:
+            tags:
+                - Balanços Históricos
+            summary: Atualiza um balanço histórico pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/HistoricalBalance'
+            responses:
+                '200':
+                    description: Balanço atualizado
+        delete:
+            tags:
+                - Balanços Históricos
+            summary: Deleta um balanço histórico pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Balanço deletado com sucesso
+    /historical-balances/active/{activeId}:
+        get:
+            tags:
+                - Balanços Históricos
+            summary: Lista todos os balanços históricos para um ativo específico
+            parameters:
+                - in: path
+                  name: activeId
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Lista de balanços
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/HistoricalBalance'
+                '401':
+                    description: Não autorizado
+
+    /transactions:
+        get:
+            tags:
+                - Transações
+            summary: Lista todas as transações do usuário
+            responses:
+                '200':
+                    description: Lista de transações
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Transaction'
+                '401':
+                    description: Não autorizado
+        post:
+            tags:
+                - Transações
+            summary: Cria uma nova transação
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Transaction'
+            responses:
+                '201':
+                    description: Transação criada
+                '401':
+                    description: Não autorizado
+    /transactions/{id}:
+        get:
+            tags:
+                - Transações
+            summary: Retorna uma transação pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes da transação
+                '404':
+                    description: Transação não encontrada
+        put:
+            tags:
+                - Transações
+            summary: Atualiza uma transação pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Transaction'
+            responses:
+                '200':
+                    description: Transação atualizada
+        delete:
+            tags:
+                - Transações
+            summary: Deleta uma transação pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Transação deletada com sucesso
+
+    /investments:
+        get:
+            tags:
+                - Investimentos
+            summary: Lista todos os investimentos do usuário
+            responses:
+                '200':
+                    description: Lista de investimentos
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/Investment'
+                '401':
+                    description: Não autorizado
+        post:
+            tags:
+                - Investimentos
+            summary: Cria um novo registro de investimento ou renda
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Investment'
+            responses:
+                '201':
+                    description: Investimento criado
+                '401':
+                    description: Não autorizado
+    /investments/{id}:
+        get:
+            tags:
+                - Investimentos
+            summary: Retorna um investimento pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '200':
+                    description: Detalhes do investimento
+                '404':
+                    description: Investimento não encontrado
+        put:
+            tags:
+                - Investimentos
+            summary: Atualiza um investimento pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/Investment'
+            responses:
+                '200':
+                    description: Investimento atualizado
+        delete:
+            tags:
+                - Investimentos
+            summary: Deleta um investimento pelo ID
+            parameters:
+                - in: path
+                  name: id
+                  schema:
+                      type: integer
+                  required: true
+            responses:
+                '204':
+                    description: Investimento deletado com sucesso
+    /investments/total-invested:
+        get:
+            tags:
+                - Investimentos
+            summary: Calcula e retorna o total investido pelo usuário (excluindo rendas)
+            responses:
+                '200':
+                    description: Total investido
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    totalInvested:
+                                        type: number
+    /investments/gain-loss:
+        get:
+            tags:
+                - Investimentos
+            summary: Calcula e retorna o ganho/perda de capital (sem considerar valorização de mercado)
+            responses:
+                '200':
+                    description: Ganho/perda calculado
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    gainLoss:
+                                        type: number
+    /investments/simulate:
+        post:
+            tags:
+                - Investimentos
+            summary: Simula o crescimento de um investimento composto
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                initialAmount:
+                                    type: number
+                                taxRate:
+                                    type: number
+                                periodMonths:
+                                    type: integer
+                                monthlyContribution:
+                                    type: number
+            responses:
+                '200':
+                    description: Resultado da simulação
+                    content:
+                        application/json:
+                            schema:
+                                type: object
+                                properties:
+                                    finalBalance:
+                                        type: number
+                                    history:
+                                        type: array
+                                        items:
+                                            type: object

@@ -109,12 +109,17 @@ class DashboardRepository {
                 // Calcular saldo a partir das transações
                 const calculatedBalance = wallet.transactions.reduce((balance, transaction) => {
                     const amount = Number(transaction.amount || 0);
+                    
+                    // Validar tipo de transação
                     if (transaction.type === 'income') {
                         return balance + amount;
                     } else if (transaction.type === 'expense') {
                         return balance - amount;
+                    } else {
+                        // Log de warning para tipos desconhecidos
+                        console.warn(`[Dashboard Repository] Unknown transaction type '${transaction.type}' for transaction in wallet ${wallet.id}. Skipping.`);
+                        return balance;
                     }
-                    return balance;
                 }, 0);
 
                 // Retornar carteira com saldo calculado

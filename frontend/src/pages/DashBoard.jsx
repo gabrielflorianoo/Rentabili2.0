@@ -155,28 +155,32 @@ export default function Dashboard() {
                 <div className="kpi-grid">
                     <div className="kpi-card main">
                         <div className="kpi-icon">💰</div>
-                        <div>
-                            <span>Patrimônio Total</span>
-                            <h3>{formatBRL(data?.totalBalance || data?.summary?.totalBalance || 0)}</h3>
+                        <div className="kpi-content">
+                            <span className="kpi-label">Patrimônio Total</span>
+                            <h3 className="kpi-value">{formatBRL(data?.totalBalance || data?.summary?.totalBalance || 0)}</h3>
+                            <small className="kpi-helper">Ativos + Carteiras</small>
                         </div>
                     </div>
 
                     <div className="kpi-card">
                         <div className="kpi-icon">📥</div>
-                        <div>
-                            <span>Total Aportado</span>
-                            <h3>{formatBRL(data?.totalInvested || 0)}</h3>
+                        <div className="kpi-content">
+                            <span className="kpi-label">Total Aportado</span>
+                            <h3 className="kpi-value">{formatBRL(data?.totalInvested || 0)}</h3>
+                            <small className="kpi-helper">{data?.summary?.investmentsCount || 0} operações</small>
                         </div>
                     </div>
 
                     <div className="kpi-card">
                         <div className="kpi-icon">📈</div>
-                        <div>
-                            <span>Rentabilidade</span>
-                            <h3 style={{ color: (data?.totalGain || 0) >= 0 ? '#00a651' : '#d90429' }}>
+                        <div className="kpi-content">
+                            <span className="kpi-label">Rentabilidade</span>
+                            <h3 className="kpi-value" style={{ color: (data?.totalGain || 0) >= 0 ? '#00a651' : '#d90429' }}>
                                 {(data?.totalGain || 0) >= 0 ? '+' : ''}{data?.profitability || 0}%
                             </h3>
-                            <small>{formatBRL(data?.totalGain || 0)} de lucro real</small>
+                            <small className="kpi-helper" style={{ color: (data?.totalGain || 0) >= 0 ? '#00a651' : '#d90429' }}>
+                                {formatBRL(data?.totalGain || 0)} em lucro
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -282,28 +286,40 @@ export default function Dashboard() {
                             error={null}
                         />
                     ) : (
-                        <div className="bg-white rounded-lg shadow p-6">
-                            <p className="text-center text-gray-400">Sem ativos para exibir</p>
+                        <div className="glass-panel" style={{ textAlign: 'center', padding: '3rem 2rem' }}>
+                            <p style={{ fontSize: '2rem', marginBottom: '1rem' }}>🏆</p>
+                            <p className="text-center" style={{ color: '#666', marginBottom: '0.5rem' }}>Nenhum ativo cadastrado ainda</p>
+                            <p style={{ fontSize: '0.9rem', color: '#999' }}>Cadastre seus investimentos para acompanhar a performance</p>
+                            <button className="btn-action" onClick={() => navigate('/actives')} style={{ marginTop: '1rem' }}>Cadastrar Ativo</button>
                         </div>
                     )}
                 </section>
 
                 {/* 6. ÚLTIMAS MOVIMENTAÇÕES */}
                 <section className="transactions-section">
-                    <h3>Últimas Movimentações</h3>
+                    <div className="section-header">
+                        <h3>Últimas Movimentações</h3>
+                    </div>
                     <div className="transactions-list-horizontal">
                         {data?.recentTransactions && data.recentTransactions.length > 0 ? (
-                            data.recentTransactions.map(t => (
+                            data.recentTransactions.slice(0, 10).map(t => (
                                 <div key={t.id} className="trans-card-mini">
-                                    <span className={`trans-type ${(t.kind || t.type) === 'Investimento' || (t.kind || t.type) === 'income' ? 'in' : 'profit'}`}>
-                                        {(t.kind === 'Investimento' || t.type === 'income') ? 'Aporte' : 'Rendimento'}
-                                    </span>
-                                    <strong>{formatBRL(t.amount)}</strong>
-                                    <small>{t.date ? new Date(t.date).toLocaleDateString('pt-BR') : 'N/A'}</small>
+                                    <div className="trans-icon">
+                                        {(t.kind || t.type) === 'Investimento' || (t.kind || t.type) === 'income' ? '📥' : '📈'}
+                                    </div>
+                                    <div className="trans-content">
+                                        <span className="trans-type">
+                                            {(t.kind === 'Investimento' || t.type === 'income') ? 'Aporte' : 'Rendimento'}
+                                        </span>
+                                        <strong className="trans-amount">{formatBRL(t.amount)}</strong>
+                                        <small className="trans-date">{t.date ? new Date(t.date).toLocaleDateString('pt-BR') : 'N/A'}</small>
+                                    </div>
                                 </div>
                             ))
                         ) : (
-                            <p className="empty-state">Nenhuma movimentação registrada.</p>
+                            <div className="empty-state" style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '2rem' }}>
+                                <p>📊 Nenhuma movimentação registrada.</p>
+                            </div>
                         )}
                     </div>
                 </section>

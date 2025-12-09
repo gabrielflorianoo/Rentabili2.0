@@ -78,8 +78,8 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     border: 1px solid #e5e7eb;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -104,6 +104,13 @@
     background: linear-gradient(135deg, #0f7c3a 0%, #059669 100%);
     color: white;
     border: none;
+}
+
+.kpi-icon {
+    font-size: 2.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+    opacity: 0.9;
 }
 
 .kpi-card span { 
@@ -520,5 +527,234 @@
 @media (max-width: 768px) {
     .top-performers-section {
         grid-template-columns: 1fr;
+    }
+}
+
+/* ===== MELHORIAS DE LAYOUT ===== */
+
+/* KPI Cards Content */
+.kpi-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.dark .kpi-label {
+    color: #9ca3af;
+}
+
+.kpi-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.dark .kpi-value {
+    color: #f9fafb;
+}
+
+.kpi-helper {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    font-weight: 500;
+}
+
+.dark .kpi-helper {
+    color: #6b7280;
+}
+
+/* Transactions List Improvements */
+.transactions-section {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin: 40px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.dark .transactions-section {
+    background: #1f2937;
+    border: 1px solid #374151;
+}
+
+.transactions-section h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 20px 0;
+}
+
+.dark .transactions-section h3 {
+    color: #f3f4f6;
+}
+
+.transactions-list-horizontal {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.trans-card-mini {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    gap: 12px;
+}
+
+.dark .trans-card-mini {
+    background: #374151;
+    border: 1px solid #4b5563;
+}
+
+.trans-card-mini:hover {
+    background: white;
+    border: 1px solid #d1d5db;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.dark .trans-card-mini:hover {
+    background: #475569;
+    border: 1px solid #64748b;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.trans-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.trans-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.trans-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    letter-spacing: 0.5px;
+}
+
+.dark .trans-type {
+    color: #9ca3af;
+}
+
+.trans-amount {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.dark .trans-amount {
+    color: #f9fafb;
+}
+
+.trans-date {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.dark .trans-date {
+    color: #6b7280;
+}
+
+.empty-state {
+    color: #9ca3af;
+    font-size: 0.95rem;
+}
+
+.dark .empty-state {
+    color: #d1d5db;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: #0f7c3a;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.dark .btn-link {
+    color: #4ade80;
+}
+
+.btn-link:hover {
+    color: #1e7d3b;
+    text-decoration: underline;
+}
+
+.dark .btn-link:hover {
+    color: #86efac;
+}
+
+/* Glass Panel */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.dark .glass-panel {
+    background: rgba(31, 41, 55, 0.5);
+    border: 1px solid rgba(75, 85, 99, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .transactions-list-horizontal {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+
+    .trans-card-mini {
+        padding: 12px;
+    }
+
+    .kpi-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .kpi-value {
+        font-size: 1.5rem;
+    }
+
+    .content {
+        padding: 20px 24px;
+    }
+
+    .content-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .content-head h2 {
+        font-size: 1.5rem;
     }
 }

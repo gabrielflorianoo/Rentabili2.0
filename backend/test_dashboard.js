@@ -29,11 +29,10 @@ async function testDashboard() {
         console.log(`\nTotal Investido: R$ ${totalInvested}`);
         console.log(`Total Renda: R$ ${totalRenda}`);
         
-        // Buscar ativos com balances
+        // Buscar ativos com investimentos
         const actives = await prisma.active.findMany({
             where: { userId },
             include: {
-                balances: { orderBy: { date: 'desc' }, take: 1 },
                 investments: true,
             },
         });
@@ -42,8 +41,13 @@ async function testDashboard() {
         let totalBalance = 0;
         actives.forEach((active) => {
             const investmentsInActive = (active.investments || []);
-            const activeTotal = investmentsInActive.reduce((sum, inv) => sum + Number(inv.amount || 0), 0);
-            const balance = active.balances.length > 0 ? Number(active.balances[0].value) : activeTotal;
+            const totalAportes = investmentsInActive
+                .filter(inv => inv.kind !== 'Renda')
+                .reduce((sum, inv) => sum + Number(inv.amount || 0), 0);
+            const totalRendas = investmentsInActive
+                .filter(inv => inv.kind === 'Renda')
+                .reduce((sum, inv) => sum + Number(inv.amount || 0), 0);
+            const balance = totalAportes + totalRendas;
             totalBalance += balance;
             console.log(`${active.name}: R$ ${balance}`);
         });

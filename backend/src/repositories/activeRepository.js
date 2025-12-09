@@ -24,7 +24,6 @@ class ActiveRepository {
             const actives = await prisma.active.findMany({
                 where: { userId },
                 include: {
-                    balances: true,
                     investments: true,
                 },
             });
@@ -43,9 +42,6 @@ class ActiveRepository {
                     userId,
                 },
                 include: {
-                    balances: {
-                        orderBy: { date: 'desc' },
-                    },
                     investments: true,
                 },
             });
@@ -82,17 +78,12 @@ class ActiveRepository {
 
     async delete(id, userId) {
         try {
-            // 1. DELETE Historical Balances (Foreign Key dependency)
-            await prisma.historicalBalance.deleteMany({
-                where: { activeId: parseInt(id) },
-            });
-
-            // 2. DELETE Investments (if any, dependency check)
+            // 1. DELETE Investments
             await prisma.investment.deleteMany({
                 where: { activeId: parseInt(id) },
             });
 
-            // 3. DELETE the Active
+            // 2. DELETE the Active
             await prisma.active.delete({
                 where: {
                     id: parseInt(id),

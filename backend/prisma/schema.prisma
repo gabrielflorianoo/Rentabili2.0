@@ -45,7 +45,6 @@ model Active {
 model Wallet {
     id       Int          @id @default(autoincrement())
     name     String
-    balance  Decimal      @db.Decimal(10, 2) @default(0)
     userId   Int
     user     User         @relation(fields: [userId], references: [id])
     transactions Transaction[]

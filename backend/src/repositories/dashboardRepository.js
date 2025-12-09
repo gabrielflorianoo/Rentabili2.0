@@ -3,29 +3,6 @@ import getPrismaClient from '../../prismaClient.js';
 const prisma = getPrismaClient();
 
 class DashboardRepository {
-    async findActivesWithBalances(userId) {
-        try {
-            if (!prisma) {
-                console.warn('[Dashboard Repository] Prisma not initialized, returning empty array');
-                return [];
-            }
-            
-            const actives = await prisma.active.findMany({
-                where: { userId },
-                include: {
-                    balances: {
-                        orderBy: { date: 'desc' },
-                        take: 1,
-                    },
-                },
-            });
-            return actives;
-        } catch (error) {
-            console.error('Dashboard Repository - findActivesWithBalances:', error);
-            throw new Error(error.message || 'Erro ao buscar ativos com saldos');
-        }
-    }
-
     async findActivesWithLatestBalances(userId) {
         try {
             if (!prisma) {
@@ -33,43 +10,32 @@ class DashboardRepository {
                 return [];
             }
             
-            // Buscar ativos com balances históricos apenas até a data atual
-            // Isso evita usar balances com datas futuras
-            const now = new Date();
-            
+            // Buscar ativos com seus investimentos
             const actives = await prisma.active.findMany({
                 where: { userId },
                 include: {
-                    balances: { 
-                        where: {
-                            date: { lte: now }
-                        },
-                        orderBy: { date: 'desc' }, 
-                        take: 1 
-                    },
+                    investments: true
                 },
             });
 
+            // Calcular saldo de cada ativo baseado em investimentos
             return actives.map((a) => {
-                // SEMPRE usar o saldo histórico mais recente se existir
-                // Os balances históricos devem ser a fonte da verdade para o patrimônio atual
-                // Agora considerando apenas balances com data <= hoje
-                if (a.balances && a.balances.length > 0) {
-                    return {
-                        id: a.id,
-                        name: a.name,
-                        type: a.type,
-                        latestBalance: Number(a.balances[0].value),
-                    };
-                }
-                
-                // Se não houver balance histórico, retornar 0
-                // (o sistema deve manter balances atualizados)
+                // Calcular saldo: aportes + ganhos (rendas)
+                const totalAportes = a.investments
+                    .filter(inv => inv.kind !== 'Renda')
+                    .reduce((sum, inv) => sum + Number(inv.amount || 0), 0);
+
+                const totalRendas = a.investments
+                    .filter(inv => inv.kind === 'Renda')
+                    .reduce((sum, inv) => sum + Number(inv.amount || 0), 0);
+
+                const latestBalance = totalAportes + totalRendas;
+
                 return {
                     id: a.id,
                     name: a.name,
                     type: a.type,
-                    latestBalance: 0,
+                    latestBalance: Math.max(latestBalance, 0),
                 };
             });
         } catch (error) {
@@ -195,25 +161,9 @@ class DashboardRepository {
                 return [];
             }
             
-            const now = new Date();
-            const dateFrom = new Date();
-            dateFrom.setMonth(dateFrom.getMonth() - months);
-            
-            const balances = await prisma.historicalBalance.findMany({
-                where: {
-                    active: { userId },
-                    date: { 
-                        gte: dateFrom,
-                        lte: now  // Não incluir balances com datas futuras
-                    },
-                },
-                orderBy: { date: 'asc' },
-                include: {
-                    active: true,
-                },
-            });
-            
-            return balances;
+            // Historical balance foi removido
+            // Retornar array vazio
+            return [];
         } catch (error) {
             console.error('Dashboard Repository - findBalanceHistory:', error);
             throw new Error(error.message || 'Erro ao buscar histórico de balances');

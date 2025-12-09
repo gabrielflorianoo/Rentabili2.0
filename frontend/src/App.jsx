@@ -61,7 +61,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/investimentos" element={<Investimentos />} />
                     <Route path="/transacoes" element={<Transacoes />} />
-                    <Route path="/carteiras" element={<Carteiras />} />
+                    {/* <Route path="/carteiras" element={<Carteiras />} /> */}
                     <Route path="/relatorios" element={<Relatorios />} />
                     <Route path="/actives" element={<Ativos />} />
                     <Route path="/simulador" element={<Simulador />} />

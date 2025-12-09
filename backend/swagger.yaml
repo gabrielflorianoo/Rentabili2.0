@@ -89,19 +89,6 @@ components:
                 kind:
                     type: string
                     enum: [Investimento, Renda]
-        HistoricalBalance:
-            type: object
-            properties:
-                id:
-                    type: integer
-                date:
-                    type: string
-                    format: date-time
-                value:
-                    type: number
-                    format: float
-                activeId:
-                    type: integer
 
 security:
     - bearerAuth: []
@@ -426,92 +413,6 @@ paths:
             responses:
                 '204':
                     description: Ativo deletado com sucesso
-
-    /historical-balances:
-        post:
-            tags:
-                - Balanços Históricos
-            summary: Adiciona um novo balanço histórico para um ativo
-            requestBody:
-                required: true
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/HistoricalBalance'
-            responses:
-                '201':
-                    description: Balanço criado
-                '401':
-                    description: Não autorizado
-    /historical-balances/{id}:
-        get:
-            tags:
-                - Balanços Históricos
-            summary: Retorna um balanço histórico pelo ID
-            parameters:
-                - in: path
-                  name: id
-                  schema:
-                      type: integer
-                  required: true
-            responses:
-                '200':
-                    description: Detalhes do balanço
-                '404':
-                    description: Balanço não encontrado
-        put:
-            tags:
-                - Balanços Históricos
-            summary: Atualiza um balanço histórico pelo ID
-            parameters:
-                - in: path
-                  name: id
-                  schema:
-                      type: integer
-                  required: true
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: '#/components/schemas/HistoricalBalance'
-            responses:
-                '200':
-                    description: Balanço atualizado
-        delete:
-            tags:
-                - Balanços Históricos
-            summary: Deleta um balanço histórico pelo ID
-            parameters:
-                - in: path
-                  name: id
-                  schema:
-                      type: integer
-                  required: true
-            responses:
-                '204':
-                    description: Balanço deletado com sucesso
-    /historical-balances/active/{activeId}:
-        get:
-            tags:
-                - Balanços Históricos
-            summary: Lista todos os balanços históricos para um ativo específico
-            parameters:
-                - in: path
-                  name: activeId
-                  schema:
-                      type: integer
-                  required: true
-            responses:
-                '200':
-                    description: Lista de balanços
-                    content:
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/HistoricalBalance'
-                '401':
-                    description: Não autorizado
 
     /transactions:
         get:

@@ -14,8 +14,12 @@ class WalletRepository {
         }
     }
 
-    async findById(id) {
+    async findById(id, userId = null) {
         try {
+            const where = { id };
+            if (userId) {
+                where.userId = userId;
+            }
             return await prisma.wallet.findUnique({
                 where: { id },
             });
@@ -48,7 +52,6 @@ class WalletRepository {
                 data: {
                     name,
                     balance,
-                    userId,
                 },
             });
             return updatedWallet;

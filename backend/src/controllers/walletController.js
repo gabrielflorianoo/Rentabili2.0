@@ -37,7 +37,11 @@ class WalletController {
     async getById(req, res) {
         try {
             const id = Number(req.params.id);
-            const wallet = await walletService.getById(id);
+            const userId = req.userId;
+            if (!userId) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+            const wallet = await walletService.getById(id, userId);
             if (!wallet)
                 return res
                     .status(404)
@@ -53,11 +57,14 @@ class WalletController {
         const userId = req.userId;
 
         try {
-            const { name, balance } = req.body;
+            const { name } = req.body;
             if (!userId) {
                 return res.status(401).json({ error: 'Unauthorized' });
             }
-            const newWallet = await walletService.create(name, balance, userId);
+            if (!name) {
+                return res.status(400).json({ error: 'Nome é obrigatório' });
+            }
+            const newWallet = await walletService.create(name, userId);
             res.status(201).json(newWallet);
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -67,12 +74,19 @@ class WalletController {
     async update(req, res) {
         try {
             const id = Number(req.params.id);
-            const { name, balance } = req.body;
+            const { name } = req.body;
             const userId = req.userId;
+            
+            if (!userId) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+            if (!name) {
+                return res.status(400).json({ error: 'Nome é obrigatório' });
+            }
+
             const updatedWallet = await walletService.update(
                 id,
                 name,
-                balance,
                 userId,
             );
             res.json(updatedWallet);
@@ -85,6 +99,11 @@ class WalletController {
         try {
             const id = Number(req.params.id);
             const userId = req.userId;
+            
+            if (!userId) {
+                return res.status(401).json({ error: 'Unauthorized' });
+            }
+
             await walletService.remove(id, userId);
             res.status(204).send();
         } catch (error) {

@@ -38,9 +38,6 @@ class InvestmentRepository {
                 },
             });
             
-            // Atualizar o balance histórico do ativo
-            await this.updateActiveBalance(activeId, userId);
-            
             return newInvestment;
         } catch (error) {
             console.error(error);
@@ -61,9 +58,6 @@ class InvestmentRepository {
                 },
             });
             
-            // Atualizar o balance histórico do ativo
-            await this.updateActiveBalance(activeId, userId);
-            
             return updatedInvestment;
         } catch (error) {
             console.error(error);
@@ -73,76 +67,10 @@ class InvestmentRepository {
 
     async remove(id) {
         try {
-            // Buscar o investimento antes de deletar para pegar o activeId
-            const investment = await prisma.investment.findUnique({
-                where: { id: Number(id) }
-            });
-            
-            if (!investment) {
-                throw new Error('Investimento não encontrado');
-            }
-            
             await prisma.investment.delete({ where: { id: Number(id) } });
-            
-            // Atualizar o balance histórico do ativo
-            await this.updateActiveBalance(investment.activeId, investment.userId);
         } catch (error) {
             console.error(error);
             throw new Error('Erro ao deletar investimento no banco de dados');
-        }
-    }
-
-    async updateActiveBalance(activeId, userId) {
-        try {
-            // Buscar todos os investimentos do ativo
-            const investments = await prisma.investment.findMany({
-                where: { 
-                    activeId: Number(activeId),
-                    userId: Number(userId)
-                },
-                orderBy: { date: 'desc' }
-            });
-
-            if (investments.length === 0) {
-                // Se não há mais investimentos, deletar o balance histórico
-                await prisma.historicalBalance.deleteMany({
-                    where: { activeId: Number(activeId) }
-                });
-                return;
-            }
-
-            // Separar aportes e rendas
-            const aportes = investments.filter(inv => inv.kind !== 'Renda');
-            const rendas = investments.filter(inv => inv.kind === 'Renda');
-
-            // Calcular totais
-            const totalAportado = aportes.reduce((sum, inv) => sum + Number(inv.amount), 0);
-            const totalRendas = rendas.reduce((sum, inv) => sum + Number(inv.amount), 0);
-            const patrimonioAtual = totalAportado + totalRendas;
-
-            // Usar a data da transação mais recente
-            const dataUltimaTransacao = investments[0].date;
-
-            // Criar ou atualizar o balance histórico
-            await prisma.historicalBalance.upsert({
-                where: {
-                    activeId_date: {
-                        activeId: Number(activeId),
-                        date: dataUltimaTransacao
-                    }
-                },
-                update: {
-                    value: patrimonioAtual
-                },
-                create: {
-                    activeId: Number(activeId),
-                    date: dataUltimaTransacao,
-                    value: patrimonioAtual
-                }
-            });
-        } catch (error) {
-            console.error('Erro ao atualizar balance histórico:', error);
-            // Não lançar erro para não quebrar a operação principal
         }
     }
 }

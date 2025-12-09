@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
@@ -112,9 +112,9 @@ export default function Carteiras() {
         }).format(value || 0);
     };
 
-    const getTotalBalance = () => {
+    const totalBalance = useMemo(() => {
         return wallets.reduce((sum, wallet) => sum + parseFloat(wallet.balance || 0), 0);
-    };
+    }, [wallets]);
 
     return (
         <div className="dashboard-wrap">
@@ -128,7 +128,7 @@ export default function Carteiras() {
                 <div className="summary-card" style={{ marginBottom: '20px' }}>
                     <h3>Saldo Total</h3>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#4CAF50' }}>
-                        {formatBRL(getTotalBalance())}
+                        {formatBRL(totalBalance)}
                     </div>
                     <div style={{ marginTop: '10px', fontSize: '0.9rem', color: '#666' }}>
                         {wallets.length} {wallets.length === 1 ? 'carteira' : 'carteiras'}

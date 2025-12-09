@@ -55,7 +55,7 @@ class TransactionRepository {
 
                     // Calculate new balance based on transaction type
                     const balanceChange = type === 'income' ? amount : -amount;
-                    const newBalance = parseFloat(wallet.balance) + parseFloat(balanceChange);
+                    const newBalance = parseFloat(wallet.balance) + balanceChange;
 
                     await tx.wallet.update({
                         where: { id: walletId },
@@ -106,9 +106,9 @@ class TransactionRepository {
 
                     if (oldWallet) {
                         const oldBalanceChange = oldTransaction.type === 'income' 
-                            ? -parseFloat(oldTransaction.amount) 
-                            : parseFloat(oldTransaction.amount);
-                        const revertedBalance = parseFloat(oldWallet.balance) + oldBalanceChange;
+                            ? oldTransaction.amount 
+                            : -oldTransaction.amount;
+                        const revertedBalance = parseFloat(oldWallet.balance) - oldBalanceChange;
 
                         await tx.wallet.update({
                             where: { id: oldTransaction.walletId },
@@ -124,9 +124,7 @@ class TransactionRepository {
                     });
 
                     if (newWallet) {
-                        const newBalanceChange = type === 'income' 
-                            ? parseFloat(amount) 
-                            : -parseFloat(amount);
+                        const newBalanceChange = type === 'income' ? amount : -amount;
                         const updatedBalance = parseFloat(newWallet.balance) + newBalanceChange;
 
                         await tx.wallet.update({
@@ -166,9 +164,9 @@ class TransactionRepository {
 
                     if (wallet) {
                         const balanceChange = transaction.type === 'income' 
-                            ? -parseFloat(transaction.amount) 
-                            : parseFloat(transaction.amount);
-                        const revertedBalance = parseFloat(wallet.balance) + balanceChange;
+                            ? transaction.amount 
+                            : -transaction.amount;
+                        const revertedBalance = parseFloat(wallet.balance) - balanceChange;
 
                         await tx.wallet.update({
                             where: { id: transaction.walletId },

@@ -18,7 +18,7 @@ export default function Transacoes() {
         amount: '',
         date: new Date().toISOString().split('T')[0],
         type: 'income', // 'income' ou 'expense'
-        walletId: '',
+        walletId: null,
     });
 
     const carregarTransacoes = async () => {
@@ -43,7 +43,7 @@ export default function Transacoes() {
             setWallets(data || []);
             // Set default wallet if available
             if (data && data.length > 0 && !form.walletId) {
-                setForm(prev => ({ ...prev, walletId: data[0].id.toString() }));
+                setForm(prev => ({ ...prev, walletId: data[0].id }));
             }
         } catch (err) {
             console.error('Erro ao carregar carteiras:', err);
@@ -84,7 +84,7 @@ export default function Transacoes() {
                 amount: '',
                 date: new Date().toISOString().split('T')[0],
                 type: 'income',
-                walletId: wallets.length > 0 ? wallets[0].id.toString() : '',
+                walletId: wallets.length > 0 ? wallets[0].id : '',
             });
             carregarTransacoes();
             carregarCarteiras(); // Reload wallets to update balances

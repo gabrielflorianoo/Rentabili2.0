@@ -3,13 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { investmentsApi, activesApi } from '../services/apis';
 import { generateInvestment } from '../utils/fakeData';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
-import { useWallet } from '../contexts/WalletContext';
+import WalletIndicator from '../components/WalletIndicator';
 import './Investimentos.css';
 import Modal from '../components/Modal';
 
 export default function Investimentos() {
     const navigate = useNavigate();
-    const { selectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [investimentos, setInvestimentos] = useState([]);
     const [actives, setActives] = useState([]);
@@ -377,20 +376,7 @@ export default function Investimentos() {
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
 
-                {/* Selected Wallet Indicator */}
-                {selectedWallet && (
-                    <div style={{
-                        padding: '12px 15px',
-                        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-                        color: 'white',
-                        borderRadius: '8px',
-                        marginBottom: '20px',
-                        fontSize: '0.9rem',
-                        boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
-                    }}>
-                        <strong>Carteira Selecionada:</strong> {selectedWallet.name}
-                    </div>
-                )}
+                <WalletIndicator />
 
                 <div className="actions-bar">
                     <button

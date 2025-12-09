@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
 import { dashboardApi } from '../services/apis';
-import { useWallet } from '../contexts/WalletContext';
+import WalletIndicator from '../components/WalletIndicator';
 import Sidebar from '../components/Sidebar';
 import CurrencyTicker from '../components/CurrencyTicker';
 import {
@@ -42,7 +42,6 @@ ChartJS.register(
 
 export default function Dashboard() {
     const navigate = useNavigate();
-    const { selectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Investidor' });
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -153,20 +152,7 @@ export default function Dashboard() {
                     </div>
                 </header>
 
-                {/* Selected Wallet Indicator */}
-                {selectedWallet && (
-                    <div style={{
-                        padding: '12px 15px',
-                        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-                        color: 'white',
-                        borderRadius: '8px',
-                        marginBottom: '20px',
-                        fontSize: '0.9rem',
-                        boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
-                    }}>
-                        <strong>Carteira Selecionada:</strong> {selectedWallet.name}
-                    </div>
-                )}
+                <WalletIndicator />
 
                 {/* 1. CARDS DE KPI */}
                 <div className="kpi-grid">

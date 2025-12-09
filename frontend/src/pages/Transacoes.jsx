@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { transactionsApi, walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
 import { useWallet } from '../contexts/WalletContext';
+import WalletIndicator from '../components/WalletIndicator';
 import './Transacoes.css';
 import { generateTransaction } from '../utils/fakeData';
 
@@ -95,7 +96,7 @@ export default function Transacoes() {
                 amount: '',
                 date: new Date().toISOString().split('T')[0],
                 type: 'income',
-                walletId: wallets.length > 0 ? wallets[0].id : null,
+                walletId: selectedWallet?.id || (wallets.length > 0 ? wallets[0].id : null),
             });
             carregarTransacoes();
             carregarCarteiras(); // Reload wallets to update balances
@@ -116,20 +117,7 @@ export default function Transacoes() {
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
 
-                {/* Selected Wallet Indicator */}
-                {selectedWallet && (
-                    <div style={{
-                        padding: '12px 15px',
-                        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
-                        color: 'white',
-                        borderRadius: '8px',
-                        marginBottom: '20px',
-                        fontSize: '0.9rem',
-                        boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
-                    }}>
-                        <strong>Carteira Selecionada:</strong> {selectedWallet.name}
-                    </div>
-                )}
+                <WalletIndicator />
 
                 {carregando ? (
                     <div className="loading">Carregando transações...</div>

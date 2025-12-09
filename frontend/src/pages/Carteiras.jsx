@@ -7,7 +7,7 @@ import './Transacoes.css';
 
 export default function Carteiras() {
     const navigate = useNavigate();
-    const { selectedWallet, selectWallet } = useWallet();
+    const { selectedWallet, selectWallet, clearSelectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [loading, setLoading] = useState(true);
     const [wallets, setWallets] = useState([]);
@@ -148,7 +148,7 @@ export default function Carteiras() {
                             <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{selectedWallet.name}</div>
                         </div>
                         <button
-                            onClick={() => selectWallet(null)}
+                            onClick={() => clearSelectedWallet()}
                             style={{
                                 padding: '8px 15px',
                                 background: 'rgba(255, 255, 255, 0.2)',

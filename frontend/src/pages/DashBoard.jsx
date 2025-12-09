@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
 import { dashboardApi } from '../services/apis';
+import WalletIndicator from '../components/WalletIndicator';
 import Sidebar from '../components/Sidebar';
 import CurrencyTicker from '../components/CurrencyTicker';
 import {
@@ -150,6 +151,8 @@ export default function Dashboard() {
                         {(data?.totalGain || 0) >= 0 ? '🚀 Carteira Rentável' : '📉 Atenção Necessária'}
                     </div>
                 </header>
+
+                <WalletIndicator />
 
                 {/* 1. CARDS DE KPI */}
                 <div className="kpi-grid">

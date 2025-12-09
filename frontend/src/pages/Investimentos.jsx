@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { investmentsApi, activesApi } from '../services/apis';
 import { generateInvestment } from '../utils/fakeData';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
+import WalletIndicator from '../components/WalletIndicator';
 import './Investimentos.css';
 import Modal from '../components/Modal';
 
@@ -374,6 +375,8 @@ export default function Investimentos() {
                     <h2>Investimentos</h2>
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
+
+                <WalletIndicator />
 
                 <div className="actions-bar">
                     <button

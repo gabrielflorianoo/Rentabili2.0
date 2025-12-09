@@ -1,10 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useWallet } from '../contexts/WalletContext';
 import DarkModeToggle from "../components/DarkModeToggle";
 
 export default function Sidebar({ aoSair = () => {}, paginaAtiva = '' }) {
     // Hook do React Router para navegação programática
     const navigate = useNavigate();
+    const { selectedWallet } = useWallet();
 
     return (
         <aside className="sidebar">
@@ -17,6 +19,26 @@ export default function Sidebar({ aoSair = () => {}, paginaAtiva = '' }) {
             <div className="logo">
                 📈<strong>RENTABILI</strong>
             </div>
+
+            {/* Selected Wallet Indicator */}
+            {selectedWallet && (
+                <div style={{
+                    margin: '15px 20px',
+                    padding: '12px',
+                    background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+                    color: 'white',
+                    borderRadius: '8px',
+                    fontSize: '0.85rem',
+                    boxShadow: '0 2px 6px rgba(76, 175, 80, 0.3)',
+                }}>
+                    <div style={{ opacity: 0.9, marginBottom: '4px', fontSize: '0.75rem' }}>
+                        Carteira Ativa:
+                    </div>
+                    <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>
+                        {selectedWallet.name}
+                    </div>
+                </div>
+            )}
 
             {/* Menu de navegação lateral */}
             <nav>

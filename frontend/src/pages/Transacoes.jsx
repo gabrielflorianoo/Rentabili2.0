@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { transactionsApi, walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
+import { useWallet } from '../contexts/WalletContext';
+import WalletIndicator from '../components/WalletIndicator';
 import './Transacoes.css';
 import { generateTransaction } from '../utils/fakeData';
 
 export default function Transacoes() {
     const navigate = useNavigate();
+    const { selectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [carregando, setCarregando] = useState(true);
     const [transacoes, setTransacoes] = useState([]);
@@ -41,8 +44,10 @@ export default function Transacoes() {
         try {
             const data = await walletsApi.list().catch(() => []);
             setWallets(data || []);
-            // Set default wallet if available
-            if (data && data.length > 0 && !form.walletId) {
+            // Set default wallet: prioritize selected wallet, then first wallet
+            if (selectedWallet && data?.some(w => w.id === selectedWallet.id)) {
+                setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+            } else if (data && data.length > 0 && !form.walletId) {
                 setForm(prev => ({ ...prev, walletId: data[0].id }));
             }
         } catch (err) {
@@ -64,6 +69,16 @@ export default function Transacoes() {
         carregarCarteiras();
     }, [navigate]);
 
+    // Update form when selectedWallet changes
+    useEffect(() => {
+        if (selectedWallet && wallets.length > 0) {
+            const walletExists = wallets.some(w => w.id === selectedWallet.id);
+            if (walletExists) {
+                setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+            }
+        }
+    }, [selectedWallet?.id, wallets.length]); // Only re-run when selectedWallet.id or wallets count changes
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -84,7 +99,7 @@ export default function Transacoes() {
                 amount: '',
                 date: new Date().toISOString().split('T')[0],
                 type: 'income',
-                walletId: wallets.length > 0 ? wallets[0].id : null,
+                walletId: selectedWallet?.id || (wallets.length > 0 ? wallets[0].id : null),
             });
             carregarTransacoes();
             carregarCarteiras(); // Reload wallets to update balances
@@ -104,6 +119,8 @@ export default function Transacoes() {
                     <h2>Transações</h2>
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
+
+                <WalletIndicator />
 
                 {carregando ? (
                     <div className="loading">Carregando transações...</div>

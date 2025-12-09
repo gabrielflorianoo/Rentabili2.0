@@ -2,10 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
+import { useWallet } from '../contexts/WalletContext';
 import './Transacoes.css';
 
 export default function Carteiras() {
     const navigate = useNavigate();
+    const { selectedWallet, selectWallet, clearSelectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [loading, setLoading] = useState(true);
     const [wallets, setWallets] = useState([]);
@@ -105,6 +107,10 @@ export default function Carteiras() {
         setEditingWallet(null);
     };
 
+    const handleSelectWallet = (wallet) => {
+        selectWallet(wallet);
+    };
+
     const formatBRL = (value) => {
         return new Intl.NumberFormat('pt-BR', {
             style: 'currency',
@@ -123,6 +129,40 @@ export default function Carteiras() {
                     <h2>💳 Carteiras</h2>
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
+
+                {/* Selected Wallet Indicator */}
+                {selectedWallet && (
+                    <div style={{
+                        padding: '15px',
+                        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+                        color: 'white',
+                        borderRadius: '8px',
+                        marginBottom: '20px',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
+                    }}>
+                        <div>
+                            <div style={{ fontSize: '0.85rem', opacity: 0.9 }}>Carteira Selecionada:</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>{selectedWallet.name}</div>
+                        </div>
+                        <button
+                            onClick={() => clearSelectedWallet()}
+                            style={{
+                                padding: '8px 15px',
+                                background: 'rgba(255, 255, 255, 0.2)',
+                                color: 'white',
+                                border: '1px solid rgba(255, 255, 255, 0.3)',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            Desselecionar
+                        </button>
+                    </div>
+                )}
 
                 {/* Total Balance Summary */}
                 <div className="summary-card" style={{ marginBottom: '20px' }}>
@@ -215,18 +255,31 @@ export default function Carteiras() {
                                 </div>
                             ) : (
                                 <div className="wallets-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-                                    {wallets.map((wallet) => (
+                                     {wallets.map((wallet) => (
                                         <div
                                             key={wallet.id}
                                             className="wallet-card"
                                             style={{
                                                 padding: '20px',
-                                                border: '1px solid #ddd',
+                                                border: selectedWallet?.id === wallet.id ? '2px solid #4CAF50' : '1px solid #ddd',
                                                 borderRadius: '8px',
-                                                backgroundColor: '#fff',
-                                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                                backgroundColor: selectedWallet?.id === wallet.id ? '#f0f9f0' : '#fff',
+                                                boxShadow: selectedWallet?.id === wallet.id ? '0 4px 8px rgba(76, 175, 80, 0.3)' : '0 2px 4px rgba(0,0,0,0.1)',
                                             }}
                                         >
+                                            {selectedWallet?.id === wallet.id && (
+                                                <div style={{ 
+                                                    marginBottom: '10px', 
+                                                    fontSize: '0.85rem', 
+                                                    color: '#4CAF50',
+                                                    fontWeight: 'bold',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    gap: '5px'
+                                                }}>
+                                                    ✓ Carteira Selecionada
+                                                </div>
+                                            )}
                                             <div style={{ marginBottom: '15px' }}>
                                                 <h4 style={{ margin: '0 0 10px 0', fontSize: '1.2rem' }}>
                                                     {wallet.name}
@@ -239,7 +292,7 @@ export default function Carteiras() {
                                                 Criada em:{' '}
                                                 {new Date(wallet.createdAt).toLocaleDateString('pt-BR')}
                                             </div>
-                                            <div style={{ display: 'flex', gap: '10px' }}>
+                                            <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
                                                 <button
                                                     onClick={() => handleEdit(wallet)}
                                                     className="btn-secondary"
@@ -263,6 +316,23 @@ export default function Carteiras() {
                                                     🗑️ Excluir
                                                 </button>
                                             </div>
+                                            <button
+                                                onClick={() => handleSelectWallet(wallet)}
+                                                className="btn-primary"
+                                                disabled={selectedWallet?.id === wallet.id}
+                                                style={{
+                                                    width: '100%',
+                                                    padding: '10px',
+                                                    background: selectedWallet?.id === wallet.id ? '#ccc' : '#4CAF50',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '4px',
+                                                    cursor: selectedWallet?.id === wallet.id ? 'not-allowed' : 'pointer',
+                                                    fontWeight: 'bold',
+                                                }}
+                                            >
+                                                {selectedWallet?.id === wallet.id ? '✓ Selecionada' : '👆 Selecionar'}
+                                            </button>
                                         </div>
                                     ))}
                                 </div>

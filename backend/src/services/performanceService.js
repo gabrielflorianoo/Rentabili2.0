@@ -1,4 +1,3 @@
-import historicalBalanceRepository from '../repositories/historicalBalanceRepository.js';
 import activesRepository from '../repositories/activeRepository.js';
 import getPrismaClient from '../../prismaClient.js';
 
@@ -17,8 +16,20 @@ class PerformanceService {
             }
 
             // Buscar históricos de saldo
-            const balances = await historicalBalanceRepository.findByActiveId(activeId, userId);
-            
+            // Buscar investimentos do tipo 'Renda' e usar como proxy dos saldos históricos
+            const balances = await prisma.investment.findMany({
+                where: {
+                    activeId: Number(activeId),
+                    userId: Number(userId),
+                    kind: 'Renda',
+                },
+                orderBy: { date: 'asc' },
+                select: {
+                    date: true,
+                    amount: true,
+                },
+            });
+
             if (balances.length === 0) {
                 return {
                     activeId,
@@ -44,17 +55,16 @@ class PerformanceService {
                 return {
                     activeId,
                     percentage: 0,
-                    startValue: filteredBalances.length > 0 ? Number(filteredBalances[0].value) : 0,
-                    endValue: filteredBalances.length > 0 ? Number(filteredBalances[filteredBalances.length - 1].value) : 0,
+                    startValue: filteredBalances.length > 0 ? Number(filteredBalances[0].amount) : 0,
+                    endValue: filteredBalances.length > 0 ? Number(filteredBalances[filteredBalances.length - 1].amount) : 0,
                     absoluteGain: 0,
                 };
             }
 
-            const startValue = Number(filteredBalances[0].value);
-            const endValue = Number(filteredBalances[filteredBalances.length - 1].value);
+            const startValue = Number(filteredBalances[0].amount);
+            const endValue = Number(filteredBalances[filteredBalances.length - 1].amount);
             const absoluteGain = endValue - startValue;
-            const percentage = (absoluteGain / startValue) * 100;
-
+            const percentage = startValue !== 0 ? (absoluteGain / startValue) * 100 : 0;
             return {
                 activeId,
                 activeName: active.name,
@@ -81,7 +91,7 @@ class PerformanceService {
 
             // Buscar todos os ativos do usuário
             const actives = await activesRepository.findAll(userId);
-            
+
             if (actives.length === 0) {
                 return [];
             }
@@ -147,7 +157,7 @@ class PerformanceService {
             }
 
             const performances = await this.getAllPerformance(userId);
-            
+
             return {
                 top: performances.slice(0, limit),
                 worst: performances.slice(-limit).reverse(),
@@ -181,7 +191,7 @@ class PerformanceService {
             // Criar mapa de datas para valores totais
             const monthlyData = {};
             const now = new Date();
-            
+
             for (let i = months - 1; i >= 0; i--) {
                 const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
                 const monthKey = date.toISOString().slice(0, 7); // YYYY-MM
@@ -201,8 +211,8 @@ class PerformanceService {
             // Converter para array e preencher gaps
             const evolution = Object.entries(monthlyData).map(([month, value]) => {
                 const [year, monthNum] = month.split('-');
-                const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 
-                                   'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+                const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                 return {
                     month: monthNames[parseInt(monthNum) - 1],
                     date: month,

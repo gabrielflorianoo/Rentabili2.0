@@ -97,7 +97,6 @@ class DashboardRepository {
             return await prisma.transaction.findMany({
                 where: { userId },
                 orderBy: { date: 'desc' },
-                take: 10,
                 include: {
                     wallet: true,
                 }

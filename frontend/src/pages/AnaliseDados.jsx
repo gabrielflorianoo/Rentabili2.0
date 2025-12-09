@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
-import { activesApi, performanceApi, historicalBalancesApi } from '../services/apis';
+import { activesApi, performanceApi } from '../services/apis';
 import {
     useAllPerformance,
     usePerformance,
@@ -21,7 +21,6 @@ export default function AnaliseDados() {
     const [loading, setLoading] = useState(true);
     const [selectedActiveId, setSelectedActiveId] = useState(null);
     const [performanceDetail, setPerformanceDetail] = useState(null);
-    const [historicalData, setHistoricalData] = useState([]);
 
     const { performances, loading: perfLoading } = useAllPerformance();
     const { topPerformers, loading: topLoading } = useTopPerformers(5);
@@ -62,10 +61,6 @@ export default function AnaliseDados() {
             // Buscar performance detalhada
             const perfData = await performanceApi.getPerformanceByPeriod(activeId);
             setPerformanceDetail(perfData);
-
-            // Buscar histórico
-            const hist = await historicalBalancesApi.listByActive(activeId);
-            setHistoricalData(hist || []);
         } catch (err) {
             console.error('Erro ao buscar detalhes:', err);
         } finally {
@@ -201,31 +196,6 @@ export default function AnaliseDados() {
                                 <section className="grafico-container">
                                     <h4>📊 Performance em Diferentes Períodos</h4>
                                     <PerformanceByPeriod performance={performanceDetail} />
-                                </section>
-                            )}
-
-                            {/* Histórico de Saldos */}
-                            {historicalData.length > 0 && (
-                                <section className="comparativo-table">
-                                    <h3>💾 Últimos Saldos Registrados</h3>
-                                    <div className="tabela-header">
-                                        <div className="ativo-col-name">Data</div>
-                                        <div className="ativo-col-type">Saldo</div>
-                                    </div>
-                                    <div className="tabela-body">
-                                        {historicalData.slice(-10).map((balance) => (
-                                            <div key={balance.id} className="tabela-row">
-                                                <div className="ativo-col-name">
-                                                    {new Date(balance.date).toLocaleDateString(
-                                                        'pt-BR'
-                                                    )}
-                                                </div>
-                                                <div className="ativo-col-type">
-                                                    {formatBRL(Number(balance.value))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
                                 </section>
                             )}
                         </>

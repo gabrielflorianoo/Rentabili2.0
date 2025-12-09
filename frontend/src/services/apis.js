@@ -112,15 +112,6 @@ export const activesApi = {
     remove: (id) => remove(`/actives/${id}`),
 };
 
-// Historical Balances API
-export const historicalBalancesApi = {
-    listByActive: (activeId) => get(`/historical-balances/active/${activeId}`),
-    getById: (id) => get(`/historical-balances/${id}`),
-    create: (payload) => post('/historical-balances', payload),
-    update: (id, payload) => put(`/historical-balances/${id}`, payload),
-    remove: (id) => remove(`/historical-balances/${id}`),
-};
-
 // Performance API
 export const performanceApi = {
     getGainLoss: (activeId, startDate, endDate) => 

@@ -32,7 +32,6 @@ model Active {
     type     String
     userId   Int
     user     User                @relation(fields: [userId], references: [id])
-    balances HistoricalBalance[]
     investments Investment[]
 
     createdAt DateTime @default(now())
@@ -41,19 +40,6 @@ model Active {
 
 
     @@index([userId])
-}
-
-model HistoricalBalance {
-    id       Int      @id @default(autoincrement())
-    date     DateTime
-    value    Decimal  @db.Decimal(10, 2)
-    activeId Int
-    active   Active   @relation(fields: [activeId], references: [id])
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@unique([activeId, date])
 }
 
 model Wallet {

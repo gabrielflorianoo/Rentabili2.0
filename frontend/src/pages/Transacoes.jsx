@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { transactionsApi, walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
+import { useWallet } from '../contexts/WalletContext';
 import './Transacoes.css';
 import { generateTransaction } from '../utils/fakeData';
 
 export default function Transacoes() {
     const navigate = useNavigate();
+    const { selectedWallet } = useWallet();
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [carregando, setCarregando] = useState(true);
     const [transacoes, setTransacoes] = useState([]);
@@ -41,8 +43,10 @@ export default function Transacoes() {
         try {
             const data = await walletsApi.list().catch(() => []);
             setWallets(data || []);
-            // Set default wallet if available
-            if (data && data.length > 0 && !form.walletId) {
+            // Set default wallet: prioritize selected wallet, then first wallet
+            if (selectedWallet && data?.some(w => w.id === selectedWallet.id)) {
+                setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+            } else if (data && data.length > 0 && !form.walletId) {
                 setForm(prev => ({ ...prev, walletId: data[0].id }));
             }
         } catch (err) {
@@ -63,6 +67,13 @@ export default function Transacoes() {
         carregarTransacoes();
         carregarCarteiras();
     }, [navigate]);
+
+    // Update form when selectedWallet changes
+    useEffect(() => {
+        if (selectedWallet && wallets.some(w => w.id === selectedWallet.id)) {
+            setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+        }
+    }, [selectedWallet, wallets]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -104,6 +115,21 @@ export default function Transacoes() {
                     <h2>Transações</h2>
                     <div className="user-badge">👤 {userData.name}</div>
                 </header>
+
+                {/* Selected Wallet Indicator */}
+                {selectedWallet && (
+                    <div style={{
+                        padding: '12px 15px',
+                        background: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+                        color: 'white',
+                        borderRadius: '8px',
+                        marginBottom: '20px',
+                        fontSize: '0.9rem',
+                        boxShadow: '0 2px 8px rgba(76, 175, 80, 0.3)',
+                    }}>
+                        <strong>Carteira Selecionada:</strong> {selectedWallet.name}
+                    </div>
+                )}
 
                 {carregando ? (
                     <div className="loading">Carregando transações...</div>

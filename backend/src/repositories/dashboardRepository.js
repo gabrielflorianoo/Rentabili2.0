@@ -77,9 +77,42 @@ class DashboardRepository {
                 return [];
             }
             
-            return await prisma.wallet.findMany({ 
+            // Buscar carteiras com suas transações para calcular o saldo real
+            const wallets = await prisma.wallet.findMany({ 
                 where: { userId },
+                include: {
+                    transactions: {
+                        select: {
+                            amount: true,
+                            type: true
+                        }
+                    }
+                },
                 orderBy: { createdAt: 'desc' }
+            });
+
+            // Calcular o saldo real de cada carteira baseado nas transações
+            return wallets.map(wallet => {
+                // Calcular saldo a partir das transações
+                const calculatedBalance = wallet.transactions.reduce((balance, transaction) => {
+                    const amount = Number(transaction.amount || 0);
+                    if (transaction.type === 'income') {
+                        return balance + amount;
+                    } else if (transaction.type === 'expense') {
+                        return balance - amount;
+                    }
+                    return balance;
+                }, 0);
+
+                // Retornar carteira com saldo calculado
+                return {
+                    id: wallet.id,
+                    name: wallet.name,
+                    balance: calculatedBalance,
+                    userId: wallet.userId,
+                    createdAt: wallet.createdAt,
+                    updatedAt: wallet.updatedAt
+                };
             });
         } catch (error) {
             console.error('Dashboard Repository - findWallets:', error);

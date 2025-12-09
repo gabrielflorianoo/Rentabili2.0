@@ -15,6 +15,7 @@ import Investimentos from './pages/Investimentos';
 import Relatorios from './pages/Relatorios';
 import Ativos from './pages/Ativos';
 import Transacoes from './pages/Transacoes';
+import Carteiras from './pages/Carteiras';
 import Simulador from './pages/Simulador';
 import Historico from './pages/Historico';
 import AnaliseDados from './pages/AnaliseDados';
@@ -60,6 +61,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/investimentos" element={<Investimentos />} />
                     <Route path="/transacoes" element={<Transacoes />} />
+                    <Route path="/carteiras" element={<Carteiras />} />
                     <Route path="/relatorios" element={<Relatorios />} />
                     <Route path="/actives" element={<Ativos />} />
                     <Route path="/simulador" element={<Simulador />} />

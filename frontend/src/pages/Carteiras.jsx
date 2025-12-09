@@ -113,7 +113,7 @@ export default function Carteiras() {
     };
 
     const totalBalance = useMemo(() => {
-        return wallets.reduce((sum, wallet) => sum + parseFloat(wallet.balance || 0), 0);
+        return wallets.reduce((sum, wallet) => sum + (Number(wallet.balance) || 0), 0);
     }, [wallets]);
 
     return (

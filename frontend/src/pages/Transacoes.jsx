@@ -84,7 +84,7 @@ export default function Transacoes() {
                 amount: '',
                 date: new Date().toISOString().split('T')[0],
                 type: 'income',
-                walletId: wallets.length > 0 ? wallets[0].id : '',
+                walletId: wallets.length > 0 ? wallets[0].id : null,
             });
             carregarTransacoes();
             carregarCarteiras(); // Reload wallets to update balances

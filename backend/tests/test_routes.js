@@ -114,24 +114,13 @@ async function testActivesAndBalances() {
 
     if (!mockActiveId) {
         console.error(
-            'Não foi possível continuar os testes de Ativos/Balanços.',
+            'Não foi possível continuar os testes de Ativos.',
         );
         return;
     }
 
     print('ACTIVES: GET /actives (Listar Ativos - Requer Auth)');
     show(await req('GET', '/actives'));
-
-    print('HISTORICAL BALANCE: POST /historical-balances (Adicionar Balanço)');
-    const createdBalance = await req('POST', '/historical-balances', {
-        activeId: mockActiveId,
-        date: new Date().toISOString(),
-        value: 1000.55,
-    });
-    show(createdBalance, 'Balanço adicionado', 'Falha ao adicionar Balanço');
-
-    print('HISTORICAL BALANCE: GET /historical-balances/active/:activeId');
-    show(await req('GET', `/historical-balances/active/${mockActiveId}`));
 
     print('ACTIVES: DELETE /actives/:id (Limpar Ativo)');
     show(

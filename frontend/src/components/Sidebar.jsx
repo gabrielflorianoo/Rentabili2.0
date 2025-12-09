@@ -46,6 +46,12 @@ export default function Sidebar({ aoSair = () => {}, paginaAtiva = '' }) {
                     Transações
                 </a>
                 <a
+                    onClick={() => navigate('/carteiras')}
+                    className={paginaAtiva === 'carteiras' ? 'active' : ''}
+                >
+                    💳 Carteiras
+                </a>
+                <a
                     onClick={() => navigate('/relatorios')}
                     className={paginaAtiva === 'relatorios' ? 'active' : ''}
                 >

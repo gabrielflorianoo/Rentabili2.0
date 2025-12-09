@@ -38,15 +38,11 @@ async function diagnosisAdmin() {
                 where: { activeId: active.id }
             });
 
-            const latestBalance = await prisma.historicalBalance.findFirst({
-                where: { activeId: active.id },
-                orderBy: { date: 'desc' }
-            });
-
             const aportes = investments.filter(i => i.kind !== 'Renda');
             const totalAporteAativo = aportes.reduce((sum, i) => sum + Number(i.amount), 0);
             const totalRendas = investments.filter(i => i.kind === 'Renda').reduce((sum, i) => sum + Number(i.amount), 0);
-            const saldoAtual = latestBalance ? Number(latestBalance.value) : 0;
+            // Since we removed HistoricalBalance, we'll calculate current value based on investments
+            const saldoAtual = totalAporteAativo + totalRendas;
 
             totalAportado += totalAporteAativo;
             totalPatrimonio += saldoAtual;

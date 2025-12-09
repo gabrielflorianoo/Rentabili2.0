@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { transactionsApi } from '../services/apis';
+import { transactionsApi, walletsApi } from '../services/apis';
 import { servicoAutenticacao } from '../services/servicoAutenticacao';
 import './Transacoes.css';
 import { generateTransaction } from '../utils/fakeData';
@@ -10,6 +10,7 @@ export default function Transacoes() {
     const [userData, setUserData] = useState({ name: 'Carregando...' });
     const [carregando, setCarregando] = useState(true);
     const [transacoes, setTransacoes] = useState([]);
+    const [wallets, setWallets] = useState([]);
 
     // Form
     const [form, setForm] = useState({
@@ -17,6 +18,7 @@ export default function Transacoes() {
         amount: '',
         date: new Date().toISOString().split('T')[0],
         type: 'income', // 'income' ou 'expense'
+        walletId: null,
     });
 
     const carregarTransacoes = async () => {
@@ -35,6 +37,19 @@ export default function Transacoes() {
         }
     };
 
+    const carregarCarteiras = async () => {
+        try {
+            const data = await walletsApi.list().catch(() => []);
+            setWallets(data || []);
+            // Set default wallet if available
+            if (data && data.length > 0 && !form.walletId) {
+                setForm(prev => ({ ...prev, walletId: data[0].id }));
+            }
+        } catch (err) {
+            console.error('Erro ao carregar carteiras:', err);
+        }
+    };
+
     useEffect(() => {
         const user = servicoAutenticacao.obterUsuarioAtual();
         const token = servicoAutenticacao.obterToken();
@@ -46,6 +61,7 @@ export default function Transacoes() {
         setUserData(user);
 
         carregarTransacoes();
+        carregarCarteiras();
     }, [navigate]);
 
     const handleSubmit = async (e) => {
@@ -57,6 +73,7 @@ export default function Transacoes() {
                 amount: parseFloat(form.amount),
                 date: new Date(form.date).toISOString(),
                 type: form.type,
+                walletId: form.walletId ? parseInt(form.walletId) : null,
             };
 
             console.log('Payload enviado:', payload);
@@ -67,8 +84,10 @@ export default function Transacoes() {
                 amount: '',
                 date: new Date().toISOString().split('T')[0],
                 type: 'income',
+                walletId: wallets.length > 0 ? wallets[0].id : null,
             });
             carregarTransacoes();
+            carregarCarteiras(); // Reload wallets to update balances
         } catch (err) {
             console.error('Erro ao criar transação:', err);
             alert(
@@ -142,6 +161,26 @@ export default function Transacoes() {
                                             }
                                             required
                                         />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label>Carteira</label>
+                                        <select
+                                            value={form.walletId}
+                                            onChange={(e) =>
+                                                setForm({
+                                                    ...form,
+                                                    walletId: e.target.value,
+                                                })
+                                            }
+                                        >
+                                            <option value="">Nenhuma (Opcional)</option>
+                                            {wallets.map((wallet) => (
+                                                <option key={wallet.id} value={wallet.id}>
+                                                    {wallet.name}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
 

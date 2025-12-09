@@ -18,7 +18,14 @@ export const WalletProvider = ({ children }) => {
         const savedWallet = localStorage.getItem('rentabil_selected_wallet');
         if (savedWallet) {
             try {
-                setSelectedWallet(JSON.parse(savedWallet));
+                const parsed = JSON.parse(savedWallet);
+                // Validate that the parsed object has required properties
+                if (parsed && typeof parsed === 'object' && parsed.id && parsed.name) {
+                    setSelectedWallet(parsed);
+                } else {
+                    console.warn('Invalid wallet data in localStorage');
+                    localStorage.removeItem('rentabil_selected_wallet');
+                }
             } catch (e) {
                 console.error('Failed to parse saved wallet:', e);
                 localStorage.removeItem('rentabil_selected_wallet');

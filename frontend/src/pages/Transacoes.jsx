@@ -71,10 +71,13 @@ export default function Transacoes() {
 
     // Update form when selectedWallet changes
     useEffect(() => {
-        if (selectedWallet && wallets.some(w => w.id === selectedWallet.id)) {
-            setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+        if (selectedWallet && wallets.length > 0) {
+            const walletExists = wallets.some(w => w.id === selectedWallet.id);
+            if (walletExists) {
+                setForm(prev => ({ ...prev, walletId: selectedWallet.id }));
+            }
         }
-    }, [selectedWallet, wallets]);
+    }, [selectedWallet?.id, wallets.length]); // Only re-run when selectedWallet.id or wallets count changes
 
     const handleSubmit = async (e) => {
         e.preventDefault();
